@@ -16,57 +16,76 @@ import { useLocationStore } from "@/store";
 
 import axios from "axios";
 import { Restaurant } from "@/types/type";
-
-const request_restaurants_options = {
-  method: "GET",
-  url: "https://api.yelp.com/v3/businesses/search?location=%22NYC%22&sort_by=best_match&limit=10",
-  headers: {
-    accept: "application/json",
-    authorization: `Bearer ${process.env.EXPO_PUBLIC_YELP_API_KEY}`,
-  },
-};
+import { icons } from "@/constants";
 
 const Home = () => {
-  //const { setUserLocation } = useLocationStore();
-  const [restaurantData, setRestaurantData] = useState<RestaurantData>({
-    businesses: [],
-  });
-
   interface RestaurantData {
     businesses: Restaurant[];
   }
 
+  const { setUserCity, userCity } = useLocationStore();
+  const [restaurantData, setRestaurantData] = useState<RestaurantData>({
+    businesses: [],
+  });
+
   useEffect(() => {
-    if (restaurantData) {
-      restaurantData.businesses.forEach((restaurant) => {
-        console.log(restaurant.id);
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords?.latitude!,
+        longitude: location.coords?.longitude!,
       });
-    }
+
+      setUserCity(`${address[0].city}`);
+
+      console.log(status, userCity);
+    })();
   }, [restaurantData]);
 
+  const request_restaurants_options = {
+    method: "GET",
+    url: `https://api.yelp.com/v3/businesses/search?location=%22${userCity}%22&sort_by=best_match&limit=10`,
+    headers: {
+      accept: "application/json",
+      authorization: `Bearer ${process.env.EXPO_PUBLIC_YELP_API_KEY}`,
+    },
+  };
+
   const restaurantSearch = () => {
-    axios
-      .request(request_restaurants_options)
-      .then((res) => {
-        setRestaurantData(res.data);
-      })
-      .catch((err) => console.error(err));
+    if (userCity) {
+      axios
+        .request(request_restaurants_options)
+        .then((res) => {
+          setRestaurantData(res.data);
+        })
+        .catch((err) => console.error(err));
+    } else {
+      console.log("Error: No location found");
+    }
   };
 
   const ListHeaderComponent = () => {
     return (
       <>
         <View className="flex flex-row items-center justify-between my-5">
-          <Text className="text-2xl font-JakartaExtraBold">Start 🍴</Text>
+          <Text className="text-2xl font-JakartaExtraBold">Select 🍽️</Text>
           <TouchableOpacity
             onPress={() => {
               restaurantSearch();
             }}
             className="justify-center items-center w-10 h-10 rounded-full bg-green-300"
-          ></TouchableOpacity>
+          >
+            <Image source={icons.search} className="w-4 h-4" />
+          </TouchableOpacity>
         </View>
         <Text className="text-xl font-JakartaBold mt-5 mb-3">
-          Your Restaurants
+          {userCity ? `Restaurants in ${userCity}` : "Restaurants Near You"}
         </Text>
       </>
     );
@@ -74,7 +93,11 @@ const Home = () => {
 
   const ListEmptyComponent = () => (
     <View className="flex flex-col items-center justify-center">
-      <Text className="text-sm">No restaurants found in your area</Text>
+      <Text className="text-sm">
+        {userCity
+          ? `Hit the green button to search!`
+          : "No restaurants found in your area"}
+      </Text>
     </View>
   );
 
@@ -96,21 +119,3 @@ const Home = () => {
 };
 
 export default Home;
-/*
-  useEffect(() => {
-    (async () => {
-      //let { status } = await Location.requestForegroundPermissionsAsync();
-      let location = await Location.getCurrentPositionAsync({});
-
-      const address = await Location.reverseGeocodeAsync({
-        latitude: location.coords?.latitude!,
-        longitude: location.coords?.longitude!,
-      });
-
-      setUserLocation({
-        latitude: location.coords?.latitude,
-        longitude: location.coords?.longitude,
-        address: `${address[0].name}, ${address[0].region}`,
-      });
-    })();
-  }, []);*/

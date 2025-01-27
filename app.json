@@ -12,7 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#2F80ED"
     },
-    "newArchEnabled" : true,
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
@@ -32,6 +32,12 @@
         "expo-router",
         {
           "origin": "https://uber.dev/"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ],
       "expo-font",

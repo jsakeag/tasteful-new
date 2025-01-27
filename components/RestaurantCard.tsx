@@ -3,14 +3,21 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { icons } from "@/constants";
 import { formatDate, formatTime } from "@/lib/utils";
 import { Restaurant } from "@/types/type";
+import { useRestaurantStore } from "@/store";
 
 const RestaurantCard = ({ restaurant }: { restaurant: Restaurant }) => {
+  let { selectedRestaurants, toggleRestaurant: pushRestaurant } =
+    useRestaurantStore();
   return (
     <TouchableOpacity
-      onPress={restaurant.setSelected}
+      onPress={() => {
+        pushRestaurant(restaurant.id);
+      }}
       className={`${
-        restaurant.selected ? "bg-green-300" : "bg-white"
-      }flex flex-row items-center justify-center bg-white rounded-lg shadow-sm shadow-neutral-300 mb-3`}
+        selectedRestaurants?.includes(restaurant.id)
+          ? "bg-green-200"
+          : "bg-white"
+      } flex flex-row items-center justify-center rounded-lg shadow-sm shadow-neutral-300 mb-3 bg-green-300`}
     >
       <View className="flex flex-col items-start justify-center p-3">
         <View className="flex flex-row items-center justify-between">

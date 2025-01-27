@@ -3,52 +3,19 @@ import { create } from "zustand";
 import { RestaurantStore, LocationStore } from "@/types/type";
 
 export const useLocationStore = create<LocationStore>((set) => ({
-  userLatitude: null,
-  userLongitude: null,
-  userAddress: null,
-  destinationLatitude: null,
-  destinationLongitude: null,
-  destinationAddress: null,
-  setUserLocation: ({
-    latitude,
-    longitude,
-    address,
-  }: {
-    latitude: number;
-    longitude: number;
-    address: string;
-  }) => {
-    set(() => ({
-      userLatitude: latitude,
-      userLongitude: longitude,
-      userAddress: address,
-    }));
-
-    // if restaurant is selected and now new location is set, clear the selected restaurant
-    const { selectedRestaurants, setSelectedRestaurants } =
-      useRestaurantStore.getState();
-  },
-
-  setDestinationLocation: ({
-    latitude,
-    longitude,
-    address,
-  }: {
-    latitude: number;
-    longitude: number;
-    address: string;
-  }) => {
-    set(() => ({
-      destinationLatitude: latitude,
-      destinationLongitude: longitude,
-      destinationAddress: address,
-    }));
+  userCity: null,
+  setUserCity: (city: string) => {
+    set(() => ({ userCity: city }));
   },
 }));
 
 export const useRestaurantStore = create<RestaurantStore>((set) => ({
-  selectedRestaurants: null,
-  setSelectedRestaurants: (restaurantId: number[]) =>
-    set(() => ({ selectedRestaurants: restaurantId })),
-  clearSelectedRestaurant: () => set(() => ({ selectedRestaurants: null })),
+  selectedRestaurants: [],
+  toggleRestaurant: (restaurantId: string) =>
+    set((state) => ({
+      selectedRestaurants: state.selectedRestaurants.includes(restaurantId)
+        ? state.selectedRestaurants.filter((id) => id !== restaurantId) // Remove the restaurantId
+        : [...state.selectedRestaurants, restaurantId], // Add the restaurantId
+    })),
+  clearSelectedRestaurant: () => set(() => ({ selectedRestaurants: [] })),
 }));
