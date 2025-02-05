@@ -102,7 +102,7 @@ const Home = () => {
   );
 
   return (
-    <SafeAreaView className="bg-general-500">
+    <SafeAreaView className="bg-general-500 flex-1">
       <FlatList
         data={restaurantData.businesses}
         renderItem={({ item }) => <RestaurantCard restaurant={item} />}
