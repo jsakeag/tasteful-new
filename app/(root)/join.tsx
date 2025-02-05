@@ -6,16 +6,13 @@ import Swiper from "react-native-swiper";
 
 import CustomButton from "@/components/CustomButton";
 import { onboarding } from "@/constants";
-import onboarding2 from "@/assets/images/onboarding2.png";
 
 const Home = () => {
   const swiperRef = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const isLastSlide = activeIndex === onboarding.length - 1;
-
   return (
-    <SafeAreaView className="flex h-full items-center justify-between bg-white">
+    <SafeAreaView className="flex-1 bg-white">
       <Swiper
         ref={swiperRef}
         loop={false}
@@ -28,24 +25,22 @@ const Home = () => {
         onIndexChanged={(index) => setActiveIndex(index)}
       >
         {onboarding.map((item) => (
-          <View key={item.id} className="flex items-center justify-center p-5">
-            <Image
-              source={onboarding2}
-              className="w-full h-[300px]"
-              resizeMode="contain"
-            />
-            <View className="flex flex-row items-center justify-center w-full mt-10">
-              <Text className="text-black text-3xl font-bold mx-10 text-center">
+          <View
+            key={item.id}
+            className="flex-1 items-center px-5 py-10 justify-center"
+          >
+            <View className="flex-1 justify-center w-full">
+              <Text className="text-black text-3xl font-bold text-center">
                 {item.title}
               </Text>
+              <Text className="text-md font-JakartaSemiBold text-center text-[#858585] mt-3">
+                {item.description}
+              </Text>
             </View>
-            <Text className="text-md font-JakartaSemiBold text-center text-[#858585] mx-10 mt-3">
-              {item.description}
-            </Text>
             <CustomButton
-              title={isLastSlide ? "Create" : "Enter"}
+              title={item.buttonText}
               onPress={() => router.replace("./(tabs)/search")}
-              className="w-11/12 mt-10 mb-5"
+              className="w-11/12 mt-auto mb-10"
             />
           </View>
         ))}

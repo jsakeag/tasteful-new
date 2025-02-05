@@ -37,11 +37,11 @@ export default function Layout() {
         tabBarStyle: {
           backgroundColor: "#333333",
           borderRadius: 50,
-          paddingBottom: 0, // ios only
+          paddingBottom: 25, //Platform.OS === "ios" ? 10 : 0, // ios only
           overflow: "hidden",
           marginHorizontal: 20,
-          marginBottom: 20,
-          height: 78,
+          marginBottom: 25,
+          height: 64,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
