@@ -137,6 +137,7 @@ const Home = () => {
         visible={isPopupVisible}
         onClose={() => setPopupVisible(false)} // Close function
         title="Confirm Restaurants"
+        onNavigate={() => router.replace("../confirm")}
       ></CustomPopup>
     </SafeAreaView>
   );

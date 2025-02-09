@@ -58,6 +58,7 @@ export default function Layout() {
           tabBarIcon: ({ focused }) => (
             <TabIcon source={icons.home} focused={focused} />
           ),
+          animation: "shift",
         }}
       />
       <Tabs.Screen
@@ -68,6 +69,7 @@ export default function Layout() {
           tabBarIcon: ({ focused }) => (
             <TabIcon source={icons.list} focused={focused} />
           ),
+          animation: "shift",
         }}
       />
     </Tabs>

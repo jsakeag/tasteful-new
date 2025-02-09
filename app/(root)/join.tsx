@@ -11,6 +11,9 @@ const Home = () => {
   const swiperRef = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const width = 256;
+  const height = 256;
+  const r = width * 0.33;
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Swiper

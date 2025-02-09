@@ -11,10 +11,12 @@ const CustomPopup = ({
   title,
   visible,
   onClose,
+  onNavigate,
 }: {
   title: string;
   visible: boolean;
   onClose: () => void;
+  onNavigate: () => void;
 }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -130,7 +132,7 @@ const CustomPopup = ({
                 </View>
                 <CustomButton
                   title="Confirm"
-                  onPress={() => router.replace("./confirm")}
+                  onPress={onNavigate}
                   className="w-11/12 mt-auto mb-10"
                 />
               </View>
