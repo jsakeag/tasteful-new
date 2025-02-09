@@ -12,11 +12,13 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import RestaurantCard from "@/components/RestaurantCard";
-import { useLocationStore } from "@/store";
+import { useLocationStore, useRestaurantStore } from "@/store";
 
 import axios from "axios";
 import { Restaurant } from "@/types/type";
 import { icons } from "@/constants";
+import CustomButton from "@/components/CustomButton";
+import CustomPopup from "@/components/CustomPopup";
 
 const Home = () => {
   interface RestaurantData {
@@ -27,6 +29,8 @@ const Home = () => {
   const [restaurantData, setRestaurantData] = useState<RestaurantData>({
     businesses: [],
   });
+  let { selectedRestaurants } = useRestaurantStore();
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -45,8 +49,13 @@ const Home = () => {
       setUserCity(`${address[0].city}`);
 
       console.log(status, userCity);
+      console.log(selectedRestaurants);
     })();
   }, [restaurantData]);
+
+  useEffect(() => {
+    console.log("button press");
+  }, [isPopupVisible]);
 
   const request_restaurants_options = {
     method: "GET",
@@ -114,6 +123,21 @@ const Home = () => {
         ListHeaderComponent={ListHeaderComponent}
         ListEmptyComponent={ListEmptyComponent}
       />
+      {restaurantData.businesses.length > 0 && (
+        <CustomButton
+          title="Continue"
+          onPress={() => {
+            setPopupVisible(true);
+          }}
+          className="w-10/12 mb-24 mt-auto self-center absolute bottom-5"
+        />
+      )}
+      {/* Modal Popup */}
+      <CustomPopup
+        visible={isPopupVisible}
+        onClose={() => setPopupVisible(false)} // Close function
+        title="Confirm Restaurants"
+      ></CustomPopup>
     </SafeAreaView>
   );
 };

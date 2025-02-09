@@ -1,30 +1,28 @@
 import { Image, Text, View } from "react-native";
 
-import RestaurantLayout from "@/components/RestaurantLayout";
+import CustomPopup from "@/components/CustomPopup";
 import { icons } from "@/constants";
-import { formatTime } from "@/lib/utils";
 import { useRestaurantStore, useLocationStore } from "@/store";
 
 const ConfirmRestaurant = () => {
-  const { userAddress, destinationAddress } = useLocationStore();
-  const { selectedRestaurants, setSelectedRestaurants } = useRestaurantStore();
-
+  const { selectedRestaurants } = useRestaurantStore();
+  const selectedRestaurant = selectedRestaurants[0];
   return (
-    <RestaurantLayout title="Confirm Restaurant">
+    <CustomPopup title="Confirm Restaurant" visible={true}>
       <>
         <Text className="text-xl font-JakartaSemiBold mb-3">
           Restaurant Information
         </Text>
 
         <View className="flex flex-col w-full items-center justify-center mt-10">
-          <Image
+          {/* <Image
             source={{ uri: selectedRestaurant?.profile_image_url }}
             className="w-28 h-28 rounded-full"
-          />
+          /> */}
 
           <View className="flex flex-row items-center justify-center mt-5 space-x-2">
             <Text className="text-lg font-JakartaSemiBold">
-              {selectedRestaurant?.title}
+              a{/*{selectedRestaurant?.title}*/}
             </Text>
 
             <View className="flex flex-row items-center space-x-0.5">
@@ -34,7 +32,7 @@ const ConfirmRestaurant = () => {
                 resizeMode="contain"
               />
               <Text className="text-lg font-JakartaRegular">
-                {selectedRestaurant?.rating}
+                a{/*selectedRestaurant?.rating*/}
               </Text>
             </View>
           </View>
@@ -46,21 +44,21 @@ const ConfirmRestaurant = () => {
               Restaurant Price
             </Text>
             <Text className="text-lg font-JakartaRegular text-[#0CC25F]">
-              ${selectedRestaurant?.price}
+              ${/*selectedRestaurant?.price*/}
             </Text>
           </View>
 
           <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
             <Text className="text-lg font-JakartaRegular">Pickup Time</Text>
             <Text className="text-lg font-JakartaRegular">
-              {formatTime(selectedRestaurant?.time!)}
+              a{/*formatTime(selectedRestaurant?.time!)*/}
             </Text>
           </View>
 
           <View className="flex flex-row items-center justify-between w-full py-3">
             <Text className="text-lg font-JakartaRegular">Car Seats</Text>
             <Text className="text-lg font-JakartaRegular">
-              {selectedRestaurant?.car_seats}
+              a{/*selectedRestaurant?.car_seats*/}
             </Text>
           </View>
         </View>
@@ -69,19 +67,19 @@ const ConfirmRestaurant = () => {
           <View className="flex flex-row items-center justify-start mt-3 border-t border-b border-general-700 w-full py-3">
             <Image source={icons.to} className="w-6 h-6" />
             <Text className="text-lg font-JakartaRegular ml-2">
-              {userAddress}
+              a{/*userAddress*/}
             </Text>
           </View>
 
           <View className="flex flex-row items-center justify-start border-b border-general-700 w-full py-3">
             <Image source={icons.point} className="w-6 h-6" />
             <Text className="text-lg font-JakartaRegular ml-2">
-              {destinationAddress}
+              a{/*destinationAddress*/}
             </Text>
           </View>
         </View>
       </>
-    </RestaurantLayout>
+    </CustomPopup>
   );
 };
 
