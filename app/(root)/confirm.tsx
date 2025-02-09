@@ -1,10 +1,11 @@
-import { Image, ImageBackground, Text, View } from "react-native";
+import { Image, ImageBackground, Text, View, Linking } from "react-native";
 
 import { icons } from "@/constants";
 import { useRestaurantStore, useLocationStore } from "@/store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "@/components/CustomButton";
 import { router } from "expo-router";
+import RestaurantCard from "@/components/RestaurantCard";
 
 const ConfirmRestaurant = () => {
   {
@@ -14,18 +15,24 @@ const ConfirmRestaurant = () => {
     /*const selectedRestaurant = selectedRestaurants[0];*/
   }
   const selectedRestaurant = {
+    src: {
+      uri: "https://s3-media0.fl.yelpcdn.com/bphoto/fulpjkMZVhAB9sA3wkdtQA/o.jpg",
+    },
+    link: "https://www.yelp.com/biz/london-bar-and-grill-oakland",
     title: "Carrot Restaurant",
     rating: 4.5,
     price: 2,
     time: 10,
     car_seats: 2,
   };
-  const sampleUri2 = {
-    uri: "https://s3-media0.fl.yelpcdn.com/bphoto/fulpjkMZVhAB9sA3wkdtQA/o.jpg",
+  const openLink = () => {
+    Linking.openURL(selectedRestaurant.link).catch((err) =>
+      console.error("Failed to open URL:", err)
+    );
   };
   return (
     <ImageBackground
-      source={sampleUri2}
+      source={selectedRestaurant.src}
       className="w-full h-full"
       resizeMode="cover"
       blurRadius={10}
@@ -37,7 +44,10 @@ const ConfirmRestaurant = () => {
           </Text>
 
           <View className="flex flex-col w-full items-center justify-center mt-10">
-            <Image source={sampleUri2} className="w-full h-52 rounded-3xl" />
+            <Image
+              source={selectedRestaurant.src}
+              className="w-full h-52 rounded-3xl"
+            />
 
             <View className="flex flex-row items-center justify-center mt-5 space-x-2">
               <Text className="text-lg font-JakartaSemiBold text-white">
@@ -86,6 +96,9 @@ const ConfirmRestaurant = () => {
             <CustomButton
               title="Continue"
               className="w-full mb-3 bg-lime-300 text-white hover:bg-lime-500"
+              onPress={() => {
+                openLink();
+              }}
             />
             <CustomButton
               title="Restart"
