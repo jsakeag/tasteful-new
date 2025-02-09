@@ -1,14 +1,7 @@
 import * as Location from "expo-location";
 import { router } from "expo-router";
 import { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
+import { Text, View, TouchableOpacity, Image, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import RestaurantCard from "@/components/RestaurantCard";

@@ -6,15 +6,24 @@ import { Restaurant } from "@/types/type";
 import { useRestaurantStore } from "@/store";
 
 const RestaurantCard = ({ restaurant }: { restaurant: Restaurant }) => {
-  let { selectedRestaurants, toggleRestaurant: pushRestaurant } =
+  let { selectedRestaurants, selectRestaurant, deselectRestaurant } =
     useRestaurantStore();
+  const toggleRestaurant = (selection: Restaurant) => {
+    if (!selectedRestaurants.some((rest) => rest.id === selection.id)) {
+      console.log("select");
+      selectRestaurant(selection);
+    } else {
+      console.log(selectedRestaurants, restaurant);
+      deselectRestaurant(selection.id);
+    }
+  };
   return (
     <TouchableOpacity
       onPress={() => {
-        pushRestaurant(restaurant.id);
+        toggleRestaurant(restaurant);
       }}
       className={`${
-        selectedRestaurants?.includes(restaurant.id)
+        selectedRestaurants?.some((rest) => rest.id === restaurant.id)
           ? "bg-green-200"
           : "bg-white"
       } flex flex-row items-center justify-center rounded-lg shadow-sm shadow-neutral-300 mb-3 bg-green-300`}

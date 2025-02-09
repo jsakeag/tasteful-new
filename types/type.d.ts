@@ -4,6 +4,7 @@ declare interface Restaurant {
   id: string;
   name: string;
   image_url: string;
+  url: string;
   is_closed: boolean;
   rating: number;
   price: string;
@@ -14,6 +15,7 @@ declare interface Restaurant {
     city: string;
   };
   distance: number;
+  review_count: number;
 }
 
 declare interface ButtonProps extends TouchableOpacityProps {
@@ -58,6 +60,7 @@ declare interface LocationStore {
 }
 
 declare interface RestaurantStore {
-  selectedRestaurants: string[];
-  toggleRestaurant: (restaurantId: string) => void;
+  selectedRestaurants: Restaurant[];
+  selectRestaurant: (restaurant: Restaurant) => void;
+  deselectRestaurant: (restaurantId: string) => void;
 }

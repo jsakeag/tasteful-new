@@ -22,8 +22,8 @@ const ConfirmRestaurant = () => {
     title: "Carrot Restaurant",
     rating: 4.5,
     price: 2,
-    time: 10,
-    car_seats: 2,
+    distance: 10,
+    review_count: 2,
   };
   const openLink = () => {
     Linking.openURL(selectedRestaurant.link).catch((err) =>
@@ -80,14 +80,14 @@ const ConfirmRestaurant = () => {
             <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
               <Text className="text-lg font-JakartaRegular">Pickup Time</Text>
               <Text className="text-lg font-JakartaRegular">
-                a{selectedRestaurant?.time!}
+                {selectedRestaurant?.distance}
               </Text>
             </View>
 
             <View className="flex flex-row items-center justify-between w-full py-3">
               <Text className="text-lg font-JakartaRegular">Car Seats</Text>
               <Text className="text-lg font-JakartaRegular">
-                a{selectedRestaurant?.car_seats}
+                a{selectedRestaurant?.review_count}
               </Text>
             </View>
           </View>
