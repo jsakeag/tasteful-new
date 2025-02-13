@@ -1,19 +1,26 @@
 import React, { useRef } from "react";
-import { Image, Modal, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Modal,
+  Text,
+  TouchableOpacity,
+  View,
+  FlatList,
+} from "react-native";
 
 import { Animated } from "react-native";
 import { useEffect } from "react";
 import { icons } from "@/constants";
 import CustomButton from "./CustomButton";
-import { router } from "expo-router";
+import { Restaurant } from "@/types/type";
 
 const CustomPopup = ({
-  title,
+  selectedRestaurants,
   visible,
   onClose,
   onNavigate,
 }: {
-  title: string;
+  selectedRestaurants: Restaurant[];
   visible: boolean;
   onClose: () => void;
   onNavigate: () => void;
@@ -55,87 +62,78 @@ const CustomPopup = ({
 
           {/* Title */}
           <Text className="text-2xl font-JakartaBold text-gray-800 mb-4">
-            {title || "Popup"}
+            {"Your Restaurants"}
           </Text>
 
           {/* Content */}
           <View className="w-full">
             <>
-              <Text className="text-xl font-JakartaSemiBold mb-3">
-                Restaurant Information
+              <Text className="text-xl font-JakartaSemiBold mb-3 text-center">
+                Restaurants Chosen
               </Text>
-
-              <View className="flex flex-col w-full items-center justify-center mt-10">
-                {/* <Image
-            source={{ uri: selectedRestaurant?.profile_image_url }}
-            className="w-28 h-28 rounded-full"
-          /> */}
-
-                <View className="flex flex-row items-center justify-center mt-5 space-x-2">
-                  <Text className="text-lg font-JakartaSemiBold">
-                    a{/*{selectedRestaurant?.title}*/}
-                  </Text>
-
-                  <View className="flex flex-row items-center space-x-0.5">
+              <FlatList
+                data={selectedRestaurants}
+                keyExtractor={(item) => item.id}
+                numColumns={2}
+                columnWrapperStyle={{ justifyContent: "center" }} // ✅ Ensures columns are centered
+                className="max-h-96"
+                renderItem={({ item }) => (
+                  <View className="flex-1 items-center p-4">
+                    {/* ✅ flex-1 for equal column width */}
                     <Image
-                      source={icons.star}
-                      className="w-5 h-5"
-                      resizeMode="contain"
+                      source={{ uri: item.image_url }}
+                      className="w-28 h-28 rounded-full"
                     />
-                    <Text className="text-lg font-JakartaRegular">
-                      a{/*selectedRestaurant?.rating*/}
-                    </Text>
+                    <Text className="mt-2 text-center">{item.name}</Text>
+                    {/* ✅ Ensures text stays centered */}
+                    <View className="flex flex-col w-full items-center justify-center">
+                      <View className="flex flex-row items-center justify-center space-x-2">
+                        <Text className="text-lg font-JakartaSemiBold">
+                          {item.rating}
+                        </Text>
+
+                        <View className="flex flex-row items-center space-x-0.5">
+                          <Image
+                            source={icons.star}
+                            className="w-5 h-5"
+                            resizeMode="contain"
+                          />
+                        </View>
+                      </View>
+
+                      <Text className="text-sm font-JakartaRegular">
+                        {Math.round(item.distance)} km
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              </View>
+                )}
+              />
 
               <View className="flex flex-col w-full items-start justify-center py-3 px-5 rounded-3xl bg-general-600 mt-5">
-                <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
+                {/* Total Restaurants */}
+                <View className="flex flex-row items-center justify-between w-full py-1">
                   <Text className="text-lg font-JakartaRegular">
-                    Restaurant Price
+                    Total Restaurants:
                   </Text>
                   <Text className="text-lg font-JakartaRegular text-[#0CC25F]">
-                    ${/*selectedRestaurant?.price*/}
+                    {selectedRestaurants.length}
                   </Text>
                 </View>
 
-                <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
-                  <Text className="text-lg font-JakartaRegular">
-                    Pickup Time
-                  </Text>
-                  <Text className="text-lg font-JakartaRegular">
-                    a{/*formatTime(selectedRestaurant?.time!)*/}
-                  </Text>
-                </View>
-
-                <View className="flex flex-row items-center justify-between w-full py-3">
-                  <Text className="text-lg font-JakartaRegular">Car Seats</Text>
-                  <Text className="text-lg font-JakartaRegular">
-                    a{/*selectedRestaurant?.car_seats*/}
+                {/* Members */}
+                <View className="flex flex-row items-center justify-between w-full py-1">
+                  <Text className="text-lg font-JakartaRegular">Members:</Text>
+                  <Text className="text-lg font-JakartaRegular text-[#0CC25F]">
+                    {selectedRestaurants.length}
                   </Text>
                 </View>
               </View>
 
-              <View className="flex flex-col w-full items-start justify-center mt-5">
-                <View className="flex flex-row items-center justify-start mt-3 border-t border-b border-general-700 w-full py-3">
-                  <Image source={icons.to} className="w-6 h-6" />
-                  <Text className="text-lg font-JakartaRegular ml-2">
-                    a{/*userAddress*/}
-                  </Text>
-                </View>
-
-                <View className="flex flex-row items-center justify-start border-b border-general-700 w-full py-3">
-                  <Image source={icons.point} className="w-6 h-6" />
-                  <Text className="text-lg font-JakartaRegular ml-2">
-                    a{/*destinationAddress*/}
-                  </Text>
-                </View>
-                <CustomButton
-                  title="Confirm"
-                  onPress={onNavigate}
-                  className="w-11/12 mt-auto mb-10"
-                />
-              </View>
+              <CustomButton
+                title="Ready"
+                onPress={onNavigate}
+                className="w-11/12 mt-6 mb-10 border-t-5"
+              />
             </>
           </View>
         </Animated.View>

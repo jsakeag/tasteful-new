@@ -75,18 +75,22 @@ const Home = () => {
   const ListHeaderComponent = () => {
     return (
       <>
-        <View className="flex flex-row items-center justify-between my-5">
-          <Text className="text-2xl font-JakartaExtraBold">Select 🍽️</Text>
-          <TouchableOpacity
-            onPress={() => {
-              restaurantSearch();
-            }}
-            className="justify-center items-center w-10 h-10 rounded-full bg-green-300"
-          >
-            <Image source={icons.search} className="w-4 h-4" />
+        <Text className="text-2xl font-JakartaExtraBold text-center">
+          Search
+        </Text>
+        <Text className="text-sm font-JakartaBold mb-3 text-center">
+          Code: ABCD
+        </Text>
+
+        <View className="flex flex-row items-center justify-center my-7">
+          <Image source={icons.person} className="w-5 h-5 ml-3 mr-3" />
+          <Image source={icons.person} className="w-5 h-5 ml-3 mr-3" />
+          <Image source={icons.person} className="w-5 h-5 ml-3 mr-3" />
+          <TouchableOpacity className="justify-center items-center w-6 h-6 rounded-full bg-green-300 ml-1 mr-1">
+            <Text className="text-white">+</Text>
           </TouchableOpacity>
         </View>
-        <Text className="text-xl font-JakartaBold mt-5 mb-3">
+        <Text className="text-xl font-JakartaBold mb-3 text-center">
           {userCity ? `Restaurants in ${userCity}` : "Restaurants Near You"}
         </Text>
       </>
@@ -95,11 +99,19 @@ const Home = () => {
 
   const ListEmptyComponent = () => (
     <View className="flex flex-col items-center justify-center">
-      <Text className="text-sm">
+      <Text className="text-sm mb-5">
         {userCity
           ? `Hit the green button to search!`
           : "No restaurants found in your area"}
       </Text>
+      <TouchableOpacity
+        onPress={() => {
+          restaurantSearch();
+        }}
+        className="justify-center items-center w-10 h-10 rounded-full bg-green-300"
+      >
+        <Image source={icons.search} className="w-4 h-4" />
+      </TouchableOpacity>
     </View>
   );
 
@@ -109,27 +121,28 @@ const Home = () => {
         data={restaurantData.businesses}
         renderItem={({ item }) => <RestaurantCard restaurant={item} />}
         keyExtractor={(item) => item.id}
-        className="px-5"
+        className="px-5 max-h-[90vh] max-h-4/5"
         contentContainerStyle={{
           paddingBottom: 100,
         }}
         ListHeaderComponent={ListHeaderComponent}
         ListEmptyComponent={ListEmptyComponent}
       />
+      {/* Continue Button Popup */}
       {restaurantData.businesses.length > 0 && (
         <CustomButton
           title="Continue"
           onPress={() => {
             setPopupVisible(true);
           }}
-          className="w-10/12 mb-24 mt-auto self-center absolute bottom-5"
+          className="w-[90%] max-w-[350px] mb-24 mt-auto self-center absolute bottom-5"
         />
       )}
       {/* Modal Popup */}
       <CustomPopup
+        selectedRestaurants={selectedRestaurants}
         visible={isPopupVisible}
         onClose={() => setPopupVisible(false)} // Close function
-        title="Confirm Restaurants"
         onNavigate={() => router.replace("../confirm")}
       ></CustomPopup>
     </SafeAreaView>

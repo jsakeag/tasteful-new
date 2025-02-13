@@ -1,38 +1,22 @@
 import { Image, ImageBackground, Text, View, Linking } from "react-native";
 
 import { icons } from "@/constants";
-import { useRestaurantStore, useLocationStore } from "@/store";
+import { useRestaurantStore } from "@/store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "@/components/CustomButton";
 import { router } from "expo-router";
-import RestaurantCard from "@/components/RestaurantCard";
 
 const ConfirmRestaurant = () => {
-  {
-    /*const { selectedRestaurants } = useRestaurantStore();*/
-  }
-  {
-    /*const selectedRestaurant = selectedRestaurants[0];*/
-  }
-  const selectedRestaurant = {
-    src: {
-      uri: "https://s3-media0.fl.yelpcdn.com/bphoto/fulpjkMZVhAB9sA3wkdtQA/o.jpg",
-    },
-    link: "https://www.yelp.com/biz/london-bar-and-grill-oakland",
-    title: "Carrot Restaurant",
-    rating: 4.5,
-    price: 2,
-    distance: 10,
-    review_count: 2,
-  };
+  const { selectedRestaurants } = useRestaurantStore();
+  const selectedRestaurant = selectedRestaurants[0];
   const openLink = () => {
-    Linking.openURL(selectedRestaurant.link).catch((err) =>
+    Linking.openURL(selectedRestaurant.url).catch((err) =>
       console.error("Failed to open URL:", err)
     );
   };
   return (
     <ImageBackground
-      source={selectedRestaurant.src}
+      source={{ uri: selectedRestaurant.image_url }}
       className="w-full h-full"
       resizeMode="cover"
       blurRadius={10}
@@ -43,15 +27,16 @@ const ConfirmRestaurant = () => {
             Restaurant Found!
           </Text>
 
-          <View className="flex flex-col w-full items-center justify-center mt-10">
+          {/* Middle content wrapper with flex-1 to center it with details */}
+          <View className="flex-1 w-full items-center justify-center">
             <Image
-              source={selectedRestaurant.src}
+              source={{ uri: selectedRestaurant.image_url }}
               className="w-full h-52 rounded-3xl"
             />
 
             <View className="flex flex-row items-center justify-center mt-5 space-x-2">
               <Text className="text-lg font-JakartaSemiBold text-white">
-                {selectedRestaurant?.title}
+                {selectedRestaurant.name}
               </Text>
 
               <View className="flex flex-row items-center space-x-0.5">
@@ -61,37 +46,43 @@ const ConfirmRestaurant = () => {
                   resizeMode="contain"
                 />
                 <Text className="text-lg font-JakartaRegular text-white">
-                  {selectedRestaurant?.rating}
+                  {selectedRestaurant.rating}
+                </Text>
+              </View>
+            </View>
+
+            {/* Grouping Restaurant Details with the Middle Content */}
+            <View className="w-full mt-5">
+              <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
+                <Text className="text-lg text-white font-JakartaRegular">
+                  Restaurant Price
+                </Text>
+                <Text className="text-lg font-JakartaRegular text-[#0CC25F]">
+                  ${selectedRestaurant.price}
+                </Text>
+              </View>
+
+              <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
+                <Text className="text-lg text-white font-JakartaRegular">
+                  Pickup Time
+                </Text>
+                <Text className="text-lg text-white font-JakartaRegular">
+                  {selectedRestaurant.distance}
+                </Text>
+              </View>
+
+              <View className="flex flex-row items-center justify-between w-full py-3">
+                <Text className="text-lg text-white font-JakartaRegular">
+                  Reviews
+                </Text>
+                <Text className="text-lg text-white font-JakartaRegular">
+                  {selectedRestaurant.review_count}
                 </Text>
               </View>
             </View>
           </View>
 
-          <View className="flex flex-col w-full items-start justify-center py-3 px-5 rounded-3xl bg-general-600 mt-5">
-            <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
-              <Text className="text-lg font-JakartaRegular">
-                Restaurant Price
-              </Text>
-              <Text className="text-lg font-JakartaRegular text-[#0CC25F]">
-                ${selectedRestaurant?.price}
-              </Text>
-            </View>
-
-            <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
-              <Text className="text-lg font-JakartaRegular">Pickup Time</Text>
-              <Text className="text-lg font-JakartaRegular">
-                {selectedRestaurant?.distance}
-              </Text>
-            </View>
-
-            <View className="flex flex-row items-center justify-between w-full py-3">
-              <Text className="text-lg font-JakartaRegular">Car Seats</Text>
-              <Text className="text-lg font-JakartaRegular">
-                a{selectedRestaurant?.review_count}
-              </Text>
-            </View>
-          </View>
-
+          {/* Buttons at the bottom */}
           <View className="mt-auto w-full">
             <CustomButton
               title="Continue"

@@ -1,7 +1,6 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { icons } from "@/constants";
-import { formatDate, formatTime } from "@/lib/utils";
 import { Restaurant } from "@/types/type";
 import { useRestaurantStore } from "@/store";
 
