@@ -12,6 +12,11 @@ import { Restaurant } from "@/types/type";
 import { icons } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 import CustomPopup from "@/components/CustomPopup";
+import {
+  GestureDetector,
+  GestureHandlerRootView,
+  Gesture,
+} from "react-native-gesture-handler";
 
 const Home = () => {
   interface RestaurantData {
@@ -72,6 +77,18 @@ const Home = () => {
     }
   };
 
+  const swipeGesture = Gesture.Pan().onEnd((event) => {
+    // TO DO: Fix gesture handling bug
+    try {
+      if (event.translationX < -100) {
+        console.log("Gesture detected, navigating...");
+        router.replace("./group");
+      }
+    } catch (error) {
+      console.error("Error during gesture handling:", error);
+    }
+  });
+
   const ListHeaderComponent = () => {
     return (
       <>
@@ -116,6 +133,8 @@ const Home = () => {
   );
 
   return (
+    //<GestureHandlerRootView>
+    //<GestureDetector gesture={swipeGesture}>
     <SafeAreaView className="bg-general-500 flex-1">
       <FlatList
         data={restaurantData.businesses}
@@ -146,6 +165,8 @@ const Home = () => {
         onNavigate={() => router.replace("../confirm")}
       ></CustomPopup>
     </SafeAreaView>
+    //</GestureDetector>
+    //</GestureHandlerRootView>
   );
 };
 

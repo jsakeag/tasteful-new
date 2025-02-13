@@ -12,16 +12,14 @@ import { Restaurant } from "@/types/type";
 import { icons } from "@/constants";
 import CustomButton from "@/components/CustomButton";
 import CustomPopup from "@/components/CustomPopup";
+import {
+  GestureDetector,
+  GestureHandlerRootView,
+  Gesture,
+} from "react-native-gesture-handler";
 
 const Home = () => {
-  interface RestaurantData {
-    businesses: Restaurant[];
-  }
-
   const { setUserCity, userCity } = useLocationStore();
-  const [restaurantData, setRestaurantData] = useState<RestaurantData>({
-    businesses: [],
-  });
   let { selectedRestaurants } = useRestaurantStore();
   const [isPopupVisible, setPopupVisible] = useState(false);
 
@@ -44,7 +42,7 @@ const Home = () => {
       console.log(status, userCity);
       console.log(selectedRestaurants);
     })();
-  }, [restaurantData]);
+  }, [selectedRestaurants]);
 
   useEffect(() => {
     console.log("button press");
@@ -59,35 +57,38 @@ const Home = () => {
     },
   };
 
-  const restaurantSearch = () => {
-    if (userCity) {
-      axios
-        .request(request_restaurants_options)
-        .then((res) => {
-          setRestaurantData(res.data);
-        })
-        .catch((err) => console.error(err));
-    } else {
-      console.log("Error: No location found");
+  const swipeGesture = Gesture.Pan().onEnd((event) => {
+    // TO DO: Fix gesture handling bug
+    try {
+      if (event.translationX < -100) {
+        console.log("Gesture detected, navigating...");
+        router.replace("./group");
+      }
+    } catch (error) {
+      console.error("Error during gesture handling:", error);
     }
-  };
+  });
 
   const ListHeaderComponent = () => {
     return (
       <>
-        <View className="flex flex-row items-center justify-between my-5">
-          <Text className="text-2xl font-JakartaExtraBold">Select 🍽️</Text>
-          <TouchableOpacity
-            onPress={() => {
-              restaurantSearch();
-            }}
-            className="justify-center items-center w-10 h-10 rounded-full bg-green-300"
-          >
-            <Image source={icons.search} className="w-4 h-4" />
+        <Text className="text-2xl font-JakartaExtraBold text-center">
+          Group
+        </Text>
+        <Text className="text-sm font-JakartaBold mb-3 text-center">
+          Code: ABCD
+        </Text>
+
+        <View className="flex flex-row items-center justify-center my-7">
+          <Image source={icons.person} className="w-5 h-5 ml-3 mr-3" />
+          <Image source={icons.person} className="w-5 h-5 ml-3 mr-3" />
+          <Image source={icons.person} className="w-5 h-5 ml-3 mr-3" />
+          <TouchableOpacity className="justify-center items-center w-6 h-6 rounded-full bg-green-300 ml-1 mr-1">
+            <Text className="text-white">+</Text>
           </TouchableOpacity>
         </View>
-        <Text className="text-xl font-JakartaBold mt-5 mb-3">
-          {userCity ? `Restaurants in ${userCity}` : "Restaurants Near You"}
+        <Text className="text-xl font-JakartaBold mb-3 text-center">
+          {"Restaurants in Your Group"}
         </Text>
       </>
     );
@@ -95,34 +96,33 @@ const Home = () => {
 
   const ListEmptyComponent = () => (
     <View className="flex flex-col items-center justify-center">
-      <Text className="text-sm">
-        {userCity
-          ? `Hit the green button to search!`
-          : "No restaurants found in your area"}
-      </Text>
+      <Text className="text-sm mb-5">No restaurants chosen yet!</Text>
     </View>
   );
 
   return (
+    //<GestureHandlerRootView>
+    //<GestureDetector gesture={swipeGesture}>
     <SafeAreaView className="bg-general-500 flex-1">
       <FlatList
-        data={restaurantData.businesses}
+        data={selectedRestaurants}
         renderItem={({ item }) => <RestaurantCard restaurant={item} />}
         keyExtractor={(item) => item.id}
-        className="px-5"
+        className="px-5 max-h-[90vh] max-h-4/5"
         contentContainerStyle={{
           paddingBottom: 100,
         }}
         ListHeaderComponent={ListHeaderComponent}
         ListEmptyComponent={ListEmptyComponent}
       />
-      {restaurantData.businesses.length > 0 && (
+      {/* Continue Button Popup */}
+      {selectedRestaurants.length > 0 && (
         <CustomButton
           title="Continue"
           onPress={() => {
             setPopupVisible(true);
           }}
-          className="w-10/12 mb-24 mt-auto self-center absolute bottom-5"
+          className="w-[90%] max-w-[350px] mb-24 mt-auto self-center absolute bottom-5"
         />
       )}
       {/* Modal Popup */}
@@ -133,6 +133,8 @@ const Home = () => {
         onNavigate={() => router.replace("../confirm")}
       ></CustomPopup>
     </SafeAreaView>
+    //</GestureDetector>
+    //</GestureHandlerRootView>
   );
 };
 
