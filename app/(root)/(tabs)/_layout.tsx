@@ -2,6 +2,7 @@ import { Tabs } from "expo-router";
 import { Image, ImageSourcePropType, View } from "react-native";
 import { icons } from "@/constants";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 const TabIcon = ({
   source,
   focused,

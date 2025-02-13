@@ -148,7 +148,7 @@ const Home = () => {
         ListEmptyComponent={ListEmptyComponent}
       />
       {/* Continue Button Popup */}
-      {restaurantData.businesses.length > 0 && (
+      {selectedRestaurants.length > 0 && (
         <CustomButton
           title="Continue"
           onPress={() => {

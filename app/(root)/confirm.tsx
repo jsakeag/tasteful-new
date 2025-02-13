@@ -1,14 +1,16 @@
 import { Image, ImageBackground, Text, View, Linking } from "react-native";
-
+import { useEffect } from "react";
 import { icons } from "@/constants";
 import { useRestaurantStore } from "@/store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "@/components/CustomButton";
 import { router } from "expo-router";
+import { selectBestRestaurant } from "@/services/recommender";
 
 const ConfirmRestaurant = () => {
   const { selectedRestaurants } = useRestaurantStore();
-  const selectedRestaurant = selectedRestaurants[0];
+
+  const selectedRestaurant = selectBestRestaurant(selectedRestaurants);
   const openLink = () => {
     Linking.openURL(selectedRestaurant.url).catch((err) =>
       console.error("Failed to open URL:", err)
