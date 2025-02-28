@@ -6,7 +6,7 @@ const config = getDefaultConfig(__dirname, {
   isCSSEnabled: true,
 });
 
-config.resolver.sourceExts.push("mjs");
+config.resolver.sourceExts.push("mjs", "cjs");
 
 module.exports = withNativeWind(config, {
   input: "./global.css",
