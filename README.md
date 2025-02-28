@@ -12,7 +12,7 @@
 
 Built with React Native for handling the user interface, Google Maps for rendering maps with directions, NeonDB serverless Postgres for managing databases, and styled with TailwindCSS, this is a collaborative realtime restaurant-recommender app
 
-## <a name="introduction">🎥 Demo GIF</a>
+## <a name="demo">🎥 Demo GIF</a>
 
 [link](https://s6.ezgif.com/tmp/ezgif-62802878a29566.gif)
 
