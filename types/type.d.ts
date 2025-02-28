@@ -63,4 +63,5 @@ declare interface RestaurantStore {
   selectedRestaurants: Restaurant[];
   selectRestaurant: (restaurant: Restaurant) => void;
   deselectRestaurant: (restaurantId: string) => void;
+  clearRestaurants: () => void;
 }

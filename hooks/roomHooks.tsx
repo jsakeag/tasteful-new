@@ -77,4 +77,18 @@ const toggleRestaurantInRoom = (restaurant: Restaurant) => {
   });
 }
 
-export { toggleRestaurantInRoom };
+const clearRoomRestaurants = () => {
+  const roomRef = ref(database, 'rooms/' + roomId);
+  get(roomRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      const existingData = snapshot.val();
+      // Keep the room but clear its restaurants
+      set(roomRef, {
+        ...existingData,
+        restaurants: []
+      });
+    }
+  });
+}
+
+export { toggleRestaurantInRoom, clearRoomRestaurants };

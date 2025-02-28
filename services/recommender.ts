@@ -1,6 +1,7 @@
 import { Restaurant } from "@/types/type";
+import { useRestaurantStore } from "@/store";
 
 export const selectBestRestaurant = (restaurants: Restaurant[]): Restaurant => {
-  // Your complex algorithm logic here...
-  return restaurants[0]; // Placeholder: Replace with actual selection logic
+  const selectedRestaurant = {...restaurants[0]}; //placeholder
+  return selectedRestaurant;
 };

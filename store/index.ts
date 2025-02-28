@@ -23,5 +23,5 @@ export const useRestaurantStore = create<RestaurantStore>((set) => ({
         (rest) => rest.id !== restaurantId
       ), // Remove the Restaurant object with the corresponding restaurantId
     })),
-  clearSelectedRestaurant: () => set(() => ({ selectedRestaurants: [] })),
+  clearRestaurants: () => set({ selectedRestaurants: [] }),
 }));

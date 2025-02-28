@@ -7,10 +7,13 @@ import CustomButton from "@/components/CustomButton";
 import { router } from "expo-router";
 import { selectBestRestaurant } from "@/services/recommender";
 
-const ConfirmRestaurant = () => {
-  const { selectedRestaurants } = useRestaurantStore();
+import { clearRoomRestaurants } from "@/hooks/roomHooks";
 
+const ConfirmRestaurant = () => {
+  const { selectedRestaurants, clearRestaurants } = useRestaurantStore();
   const selectedRestaurant = selectBestRestaurant(selectedRestaurants);
+  // clearRestaurants();
+  clearRoomRestaurants();
   const openLink = () => {
     Linking.openURL(selectedRestaurant.url).catch((err) =>
       console.error("Failed to open URL:", err)
