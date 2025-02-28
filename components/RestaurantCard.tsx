@@ -4,7 +4,15 @@ import { icons } from "@/constants";
 import { Restaurant } from "@/types/type";
 import { useRestaurantStore } from "@/store";
 
-const RestaurantCard = ({ restaurant }: { restaurant: Restaurant }) => {
+import { database } from '../firebaseConfig';
+import { ref, set, get } from "firebase/database";
+
+interface RestaurantCardProps {
+  restaurant: Restaurant;
+  toggleRestaurantHook: (newRoom: Restaurant) => void;
+}
+
+const RestaurantCard = ({ restaurant, toggleRestaurantHook }: RestaurantCardProps) => {
   let { selectedRestaurants, selectRestaurant, deselectRestaurant } =
     useRestaurantStore();
   const toggleRestaurant = (selection: Restaurant) => {
@@ -16,10 +24,12 @@ const RestaurantCard = ({ restaurant }: { restaurant: Restaurant }) => {
       deselectRestaurant(selection.id);
     }
   };
+
   return (
     <TouchableOpacity
       onPress={() => {
         toggleRestaurant(restaurant);
+        toggleRestaurantHook(restaurant);
       }}
       className={`${
         selectedRestaurants?.some((rest) => rest.id === restaurant.id)

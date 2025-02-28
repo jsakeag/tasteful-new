@@ -17,6 +17,7 @@ import {
   GestureHandlerRootView,
   Gesture,
 } from "react-native-gesture-handler";
+import { toggleRestaurantInRoom } from "@/hooks/roomHooks";
 
 const Home = () => {
   interface RestaurantData {
@@ -138,7 +139,7 @@ const Home = () => {
     <SafeAreaView className="bg-general-500 flex-1">
       <FlatList
         data={restaurantData.businesses}
-        renderItem={({ item }) => <RestaurantCard restaurant={item} />}
+        renderItem={({ item }) => <RestaurantCard restaurant={item} toggleRestaurantHook={toggleRestaurantInRoom}/>}
         keyExtractor={(item) => item.id}
         className="px-5 max-h-[90vh] max-h-4/5"
         contentContainerStyle={{

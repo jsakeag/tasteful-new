@@ -2544,6 +2544,13 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/clipboard/-/clipboard-1.5.1.tgz#32abb3ea2eb91ee3f9c5fb1d32d5783253c9fabe"
   integrity sha512-AHAmrkLEH5UtPaDiRqoULERHh3oNv7Dgs0bTC0hO5Z2GdNokAMPT5w8ci8aMcRemcwbtdHjxChgtjbeA38GBdA==
 
+"@react-native-firebase/app@^21.11.0":
+  version "21.11.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-21.11.0.tgz#a01b0cb738a8b9ca7bb7ab7dd461c5a9744cb68a"
+  integrity sha512-25qALpiaVuJB+QA6XdNw/t9Cqb/wbf9cf0XeXfBbSoOYZfaa7yZynS8a2HnBFEHfpV0KfD4tS/5g1sgZSLp0zg==
+  dependencies:
+    firebase "11.3.1"
+
 "@react-native/assets-registry@0.76.6":
   version "0.76.6"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.76.6.tgz#649af8a19cbabcea321dbcfb1a1ae04bb298d958"
@@ -5508,7 +5515,7 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
-firebase@^11.3.1:
+firebase@11.3.1, firebase@^11.3.1:
   version "11.3.1"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-11.3.1.tgz#1507b2b1e3af17418fbe009e82d7bc30a6b5117c"
   integrity sha512-P4YVFM0Bm2d8aO61SCEMF8E1pYgieGLrmr/LFw7vs6sAMebwuwHt+Wug+1qL2fhAHWPwpWbCLsdJH8NQ+4Sw8Q==
