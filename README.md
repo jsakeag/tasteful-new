@@ -14,7 +14,7 @@ Built with React Native for handling the user interface, Google Maps for renderi
 
 ## <a name="demo">🎥 Demo</a>
 
-[link](https://s6.ezgif.com/tmp/ezgif-62802878a29566.gif)
+[link](https://drive.google.com/file/d/1O9Qf-wARoP7_08ScfEUbYqFuUDF9lhep/view?usp=sharing)
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
